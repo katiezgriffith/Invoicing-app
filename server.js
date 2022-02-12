@@ -90,4 +90,54 @@ bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
 });
 
 // POST /register - end
+// ...
+
+// POST /login - begin
+
+app.post('/login', upload.none(), function(req, res) {
+    let db = new sqlite3.Database('./database/InvoicingApp.db');
+  
+    let sql = `SELECT * from users where email='${req.body.email}'`;
+  
+    db.all(sql, [], (err, rows) => {
+      if (err) {
+        throw err;
+      }
+  
+      db.close();
+  
+      if (rows.length == 0) {
+        return res.json({
+          "status": false,
+          "message": "Sorry, wrong email."
+        });
+      }
+  
+  // ...
+  // ...
+
+  let user = rows[0];
+
+  let authenticated = bcrypt.compareSync(req.body.password, user.password);
+
+  delete user.password;
+
+  if (authenticated) {
+    return res.json({
+      "status": true,
+      "user": user
+    });
+  }
+
+  return res.json({
+    "status": false,
+    "message": "Wrong password. Please retry."
+  });
+});
+
+});
+
+// POST /login - end
+
+// ...
 
