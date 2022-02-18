@@ -13,11 +13,7 @@ module.exports = {
   
         db.run(`PRAGMA foreign_keys = ON`);
   
-        // ...
-  
-      
-
-      db.serialize(function() {
+       db.serialize(function() {
         db.run(`CREATE TABLE users (
           id INTEGER PRIMARY KEY,
           name TEXT,

@@ -12,8 +12,7 @@ let umzug = new Umzug({
   upName: 'up'
 });
 
-// ...
-// ...
+
 
 function logUmzugEvent(eventName) {
     return function(name, migration) {
